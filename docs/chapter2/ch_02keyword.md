@@ -20,7 +20,7 @@
     
     서브넷 마스크의 bit 수를 증가시키는 방식을 통해  할당할 수 있는 네트워크가 2배수로 증가하고 호스트 수는 2배수로 감소하도록 한다. 이를 통해 많은 수의 IP주소가 필요하지 않는 호스트에게 IP주소를 할당할 때에 낭비되는 주소가 줄어들게 된다
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/f1912130-0409-4e90-a90f-6091ae253e73/7975a66c-0aa4-4178-b2fc-60a5199a2f5f/Untitled.png)
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/f1912130-0409-4e90-a90f-6091ae253e73/7975a66c-0aa4-4178-b2fc-60a5199a2f5f/Untitled.png)
     
     이와 같은 방식을 통해 192.168.32.0/25와 같이 편하게 서브네팅에 대해 확인할 수  있도록 표기하기도 한다.
     
