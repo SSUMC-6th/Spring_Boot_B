@@ -54,7 +54,7 @@ ex) PHP, Node.js, Spring Boot
 
 : 사용자와 서버 사이에서 중개자 역할을 하는 서버
 
-![리버스 프록시](./images/front.png)
+![리버스 프록시](./images/reverse.png)
 
 **✔️ 리버스 프록시를 왜 사용하는가?**
 
@@ -68,7 +68,7 @@ ex) PHP, Node.js, Spring Boot
     : 클라이언트들이 인터넷에 접근할때, 사용자들을 대표하여 접속한다
 
     
-![포워드](./images/reverse.png)
+    ![포워드](./images/forward.png)
 
 ***즉, 포워드 프록시는 클라이언트 관점에서 인터넷 접속을 관리 및 제어하는데 초점을 두고 & 리버스 프록시는 서버의 관점에서 보안을 강화하는데 초점을 둔다!***
 
