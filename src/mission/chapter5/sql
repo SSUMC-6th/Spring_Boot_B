@@ -1,0 +1,13 @@
+select MissionName, Status, reward
+from Missions, user
+
+insert into review(user_id, create_time_id, Rating, Comment)
+values (닉네임1234, 2022.05.14.:~, 5, '음 너무 맛있어요....');
+
+
+select region_name, store_name, user_point, reword, scale
+from Missons, region, store
+where region.id=stroe.region_id
+
+select user_id, user_email, user_phone, user_point
+form member
