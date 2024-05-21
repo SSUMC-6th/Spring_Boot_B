@@ -1,0 +1,42 @@
+### 명세서
+
+- 홈 화면
+    - API Endpoint: GET users/home
+- 마이 페이지 리뷰 작성
+    - API Endpoint: POST users/mypage/reviews/add-review
+    - Request Body
+    
+    {
+    
+    “add-photo”: 1
+    
+    “photo”: “사진링크1”
+    
+    “star”: 4.5
+    
+    “review”: “적당히 맛있어요”Authorization : accessToken (String)
+    
+    }
+    
+    - Request Header: Authorization : accessToken (String)
+- 미션 목록 조회
+    - API Endpoint: GET missons/{user-id}
+    - Request Header: Authorization : accessToken (String)
+- 미션 성공 누르기
+    - API Endpoint: PATCH missons/{user-id}/success
+    - Request Header: Authorization : accessToken (String)
+- 회원가입하기
+    - API Endpoint: POST users/
+    - Request Body
+    
+    {
+    
+    “name”: “jaemin”
+    
+    “sex”: “남”
+    
+    “birth”: 20030718”
+    
+    “address”: “숭실대”
+    
+    }
