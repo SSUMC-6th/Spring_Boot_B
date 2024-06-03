@@ -1,0 +1,34 @@
+- **미션 기록**
+    - ⚡이슈 No.1
+        
+        `Persistent entity 'Terms' should have primary key` 라고 나오면서 오류가 나온다.
+        
+        ## 📌 JPA Domain 설계 중 마주친 오류
+        
+        `@Id` annotation은 해당 필드가 해당 Entity의 Primary Key임을 알려준다. 나는 서버를 실행시키고 다음과 같은 오류를 발견했는데
+        
+        > nested exception is org.hibernate.AnnotationException: No identifier specified for entity: com.snowdeer.database.board.Member
+        > 
+        
+        구글링 결과
+        
+        `import org.springframework.data.annotation.Id`
+        
+        👇
+        
+        `import javax.persistence.Id`로 수정했더니 해결되었다.
+        
+    - ⚡이슈 No.2
+        
+        컴파일을 돌렸더니 애노테이션이 먹지 않는다.
+        
+        → JRE를 11로 바꾸고, JDK21은 lombok을 지원하지 않으므로 17로 바꾸어주었다.
+        
+    - 데이터 그립
+       https://github.com/SSUMC-6th/Spring_Boot_B/blob/seungsu/%237/src/mission/Untitled.png
+       
+> **github 링크**
+> 
+> 
+> https://github.com/kjmq1234/umc_study
+>
