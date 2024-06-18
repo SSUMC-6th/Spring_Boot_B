@@ -1,0 +1,107 @@
+- Spring Data JPA의 Paging
+    - Spring Data JPA의 간단한 페이징처리를 위해서는  한 페이지 당 보여줄 데이터의 개수와 몇 번째 페이지인지에 대한 정보가 필요하다.
+    
+    ```
+    @GetMappingpublic ResponseEntity<?> searchPointDetail(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+    	// 로직
+    }
+    ```
+    
+    - Slice
+        - 페이징 처리한 데이터의 리턴 타입인 인터페이스
+        - 다음 slice가 있는지만 판단하므로 page 타입보다 성능이 좋음
+        - 무한 스크롤 방식에서 유리
+        
+        ```
+        public interface Slice<T> extends Streamable<T> {
+        
+        	int getNumber(); // 
+        	현재 페이지int getSize(); //페이지 크기
+        	int getNumberOfElements(); // 현재 페이지에 조회한 데이터 개수
+        	List<T> getContent(); // 현재 페이지에 조회한 데이터 
+        	boolean hasContent(); // 현재 페이지에 데이터가 있는지 여부 
+        	Sort getSort(); // 정렬 여부 
+        	boolean isFirst(); // 첫 번째 페이지인지 여부
+        	boolean isLast(); // 마지막 페이지인지 여부
+        	boolean hasNext(); // 다음 페이지가 있는지 여부
+        	boolean hasPrevious();  // 이전 페이지가 있는지 여부 
+        	
+        	// 페이지 요청 정보
+        	default Pageable getPageable() {
+        		return PageRequest.of(getNumber(), getSize(), getSort());
+        	}
+        
+        	// 다음 페이지 정보
+        	Pageable nextPageable();
+        
+        	// 이전 페이지 정보
+        	Pageable previousPageable();
+        
+        	<U> Slice<U> map(Function<? super T, ? extends U> converter);
+        	default Pageable nextOrLastPageable() {
+        		return hasNext() ? nextPageable() : getPageable();
+        	}
+        
+        	default Pageable previousOrFirstPageable() {
+        		return hasPrevious() ? previousPageable() : getPageable();
+        	}
+        }
+        ```
+        
+    - Page
+        - 페이징 처리한 데이터의 리턴 타입 중 하나
+        - Slice 인터페이스를 상속받음
+        - Slice 인터페이스 외에 getTotalPages(), getTotalElements() 메소드를 추가로 가지고 있음
+        - Slice와 달리 전체 데이터 및 전체 페이지 수를 계산하기 위한 Count쿼리문을 추가로 호출
+        - 페이지 수가 필요한 게시판 형식의 처리가 필요할 때 사용
+- 객체 그래프 탐색
+    - 객체가 참조하는 다른 객체들을 통해 참조하는 것
+        
+        → (‘.’을 통해 연관된 객체를 탐색하는 것이 객체 그래프 탐색)
+        
+    - SQL에 따라 탐색 범위가 결정됨
+        
+        → 하지만 JAP를 활용하면 객체 그래프를 마음껏 탐색할 수 있음
+        
+        그 이유는 JPA는 연관된 객체를 사용하는 시점에서 적절한 SELECT SQL을 실행해주기 때문이다.
+        
+        → 실제 객체를 사용하는 시점까지 DB 조회를 미룬다고 해서 지연 로딩이라고 부름
+        
+- JPQL
+    - JPA는 프로그램과 DB사이에서 필요한 SQL문을 자동으로 만들어주지만 모든 쿼리를 객체지향으로 표현할 수 없다는 한계가 있다.
+    - 이를 해결하기 위한 존재가 SPQL이다.
+    
+    - JPQL은 SQL 포맷은 유지하되, 테이블이 아닌 **엔티티**를 대상으로 한다
+    - JPQL 문 생성, 실행까지 3단계로 나뉜다.
+        
+        1. JPQL문 작성
+        
+        엔티티를 기준으로 JPQL문을 만들면 JPA(하이버네이트)가 자동으로 SQL문으로 변환한다.
+        
+        그러므로 개발자는 엔티티 관점만 유지하면 된다.
+        
+        2. JPQL문 실행객체 생성
+        
+        문자열 쿼리를 실행가능한 형태로 만드는 주체는 엔티티매니저
+        
+        엔티티메니저에게 JPQL문과 반환타입을 파라미터로 넘기면 쿼리객체를 생성
+        
+        - SELECT문으로 조회되는 결과는 2가지 형태로 분류 가능
+            
+            **1) 엔티티, 임베디드 타입, DTO 같은 특정 '대상'**
+            
+            만약 조회목적이 엔티티나 임베디드 타입 같이, 명확하고 정해진 대상이라면 TypedQuery를 사용하는 것이 좋다.
+            
+            DTO는 SELECT 문에 new 연산자를 사용
+            
+            **2) 스칼라 타입 ( 필드 )**
+            
+            스칼라 타입은 단일한 값을 가진 데이터 타입을 의미한다. 엔티티의 필드가 대표
+            
+        
+        3. JPQL문 실행 후 결과반환
+        
+        JPQL 실행객체를 생성하였으니 이제 실행할 차례이다. 실행한 후 결과를 return하는 조회 API는 두 가지가 있다.
+        
+        1. query.getSingleResult() : 결과가 정확히 하나인 경우에만 사용
+        2. query.getResultList() : 하나 이상의 결과를 반환할 때 사용
