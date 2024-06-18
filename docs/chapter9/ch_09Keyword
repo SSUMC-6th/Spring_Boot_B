@@ -1,0 +1,26 @@
+- java의 Exception 종류들
+    1. NullPointerException
+        - 제일 무서운 예외인 것 같습니다. null값을 가지고 있는 참조 변수에 접근했을 때 발생합니다.
+        - 객체가 없는 상태에서 객체에 접근했을 때 발생합니다.
+    2. ArrayindexOutOfBoundException
+        - 배열을 다룰때 발생하는 예외
+        - 선언된 인덱스의 범위를 벗어나는 값을 활용할 때 발생합니다.
+    3. NumberFormatException
+        - 문자열을 숫자로 변환하는 과정에서 숫자로 변환할 수 없는 문자를 마추쳤을 떄 발생하는 에러입니다.
+    4. ClassCastException
+        - 변환될 수 없는 타입을 억지로 변환하려고 시도하면 발생하는 에러입니다.
+    5. OutOfMemoryException
+        - 메모리가 부족한 상황에서 발생합니다.
+- @Valid
+    - 빈 검증기(Bean Validator)를 이용해 객체의 제약 조건을 검증하도록 지시하는 어노테이션
+    - @Valid는 기본적으로 컨트롤러에서만 동작하며, 기본적으로 다른 계층에서는 검증이 되지 않는다.
+    - 유효성 검증에 실패할 경우, MethodArgumentNotValidException이 발생
+    
+    - 사용법
+        - build.gradle에 의존성을 추가해야함
+        - 컨트롤러 메소드 @RequestBody앞에 @Vaild를 붙여서 사용
+    
+    - @validated
+        - valid는 자바 표준스펙이고 validated는 스프링에서 제공
+        - validated를 통해 그룹 유효성 검사, 컨트롤러가 아닌 계층에서도 유효성 검증 가능
+        - **Valid**는 **MethodArgumentNotValidException** 예외를, **@Validated**는**ConstraintViolationException를 발생시킴**
